@@ -122,7 +122,7 @@ raw_df.head()
 
 
 
-### Preparing the Data
+## Preparing the Data
 
 Since we're working with text data, we'll still need to do some basic preprocessing and tokenize our data. You'll notice from the sample of the data above that two different columns contain text data--`headline` and `short_description`. The more text data our Word2Vec model has, the better it will perform. Therefore, we'll want to combine the two columns before tokenizing each comment and training our Word2Vec model. 
 
@@ -162,7 +162,7 @@ If our window size was 5, then the model would start by looking at the words "Wi
 
 Now that we've prepared our data, let's train our model and explore a bit!
 
-### Training the Model
+## Training the Model
 
 We'll start by instantiating a Word2Vec Model from gensim below. 
 
@@ -208,7 +208,7 @@ Great! We now have a fully trained model! The word vectors themselves are stored
 wv = model.wv
 ```
 
-### Examining Our Word Vectors
+## Examining Our Word Vectors
 
 Now that we have a trained Word2Vec model, let's go ahead and explore the relationships between some of the words in our corpus! 
 
@@ -357,6 +357,6 @@ As we can see from the output above, our model isn't perfect, but 'Queen' is sti
 
 We'll see in the next lab that from a practical standpoint, one of the best things we can do for performance is to start by loading in the weights from an open-sourced model that has been trained for a very long time on a massive amount of data, such as the GloVe model from the Stanford NLP Group. There's not really any benefit from training the model ourselves, unless our text uses different, specialized vocabulary that isn't likely to be well represented inside an open-source model.
 
-# Summary
+## Summary
 
 In this lab, we learned how to train and use a Word2Vec model to created vectorized word embeddings!
