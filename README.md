@@ -10,7 +10,7 @@ In this lab, you'll learn how to generate word embeddings by training a Word2Vec
 You will be able to:
 
 * Demonstrate a basic understanding of the architecture of the Word2Vec model
-* Demonstrate an understanding of the various tunable parameters of word2vec such as vector size and window size
+* Demonstrate an understanding of the various tunable parameters of Word2Vec such as vector size and window size
 
 ## Getting Started
 
