@@ -20,25 +20,11 @@ As you've seen, the easiest way to make use of Word2Vec is to import it from the
 
 Run the cell below to import everything you'll need for this lab. 
 
-
-```python
-import pandas as pd
-import numpy as np
-np.random.seed(0)
-from gensim.models import Word2Vec
-from nltk import word_tokenize
-```
-
 Now, import the data. The data stored in the file `'News_Category_Dataset_v2.json'`.  This file is compressed, so that it can be more easily stored in a github repo. **_Make sure to unzip the file before continuing!_**
 
 In the cell below, use the `read_json` function from pandas to read the dataset into a DataFrame. Be sure to include the parameter `lines=True` when reading in the dataset!
 
 Once you've loaded in the data, inspect the head of the DataFrame to see what your data looks like. 
-
-
-```python
-raw_df = None
-```
 
 ## Preparing the Data
 
@@ -49,18 +35,7 @@ In the cell below:
 * Create a column called `combined_text` that consists of the data from `df.headline` plus a space character (`' '`) plus the data from `df.short_description`.
 * Use the `combined_text` column's `map()` function and pass in `word_tokenize`. Store the result returned in `data`.
 
-
-```python
-df['combined_text'] = None
-data = None
-```
-
 Inspect the first 5 items in `data` to see how everything looks. 
-
-
-```python
-data[:5]
-```
 
 Notice that although the words are tokenized, they are still in the same order they were in as headlines. This is important, because the words need to be in their original order for Word2Vec to establish the meaning of them. Remember that for a Word2Vec model you can specify a  **_Window Size_** that tells the model how many words to take into consideration at one time. 
 
@@ -81,11 +56,6 @@ In the cell below:
     * The minimum number of times a word needs to appear in order to be counted in  the model, `min_count=1`.
     * The number of threads to use during training, `workers=4`
 
-
-```python
-model = None
-```
-
 Now, that you've instantiated Word2Vec model, train it on your text data. 
 
 In the cell below:
@@ -95,17 +65,7 @@ In the cell below:
     * The `total_examples`  of sentences in the dataset, which you can find in `model.corpus_count`. 
     * The number of `epochs` you want to train for, which we'll set to `10`
 
-
-```python
-
-```
-
 Great! you now have a fully trained model! The word vectors themselves are stored inside of a `Word2VecKeyedVectors` instance, which is stored inside of `model.wv`. To simplify this, restore this object inside of the variable `wv` to save yourself some keystrokes down the line. 
-
-
-```python
-wv = model.wv
-```
 
 ## Examining Your Word Vectors
 
@@ -115,21 +75,11 @@ One cool thing you can use Word2Vec for is to get the most similar words to a gi
 
 In the cell below, try getting the most similar word to `'Texas'`.
 
-
-```python
-
-```
-
 Interesting! All of the most similar words are also states. 
 
 You can also get the least similar vectors to a given word by passing in the word to the `most_similar()` function's `negative` parameter. 
 
 In the cell below, get the least similar words to `'Texas'`.
-
-
-```python
-
-```
 
 This seems like random noise. It is a result of the way Word2Vec is computing the similarity between word vectors in the embedding space. Although the word vectors closest to a given word vector are almost certainly going to have similar meaning or connotation with your given word, the word vectors that the model considers 'least similar' are just the word vectors that are farthest away, or have the lowest cosine similarity. It's important to understand that while the closest vectors in the embedding space will almost certainly share some level of semantic meaning with a given word, there is no guarantee that this relationship will hold at large distances. 
 
@@ -137,26 +87,11 @@ You can also get the vector for a given word by passing in the word as if you we
 
 In the cell below, get the word vector for `'Texas'`.
 
-
-```python
-
-```
-
 Now get all of the word vectors from the object at once. You can find these inside of `wv.vectors`. Try it out in the cell below.  
-
-
-```python
-
-```
 
 As a final exercise, try to recreate the _'king' - 'man' + 'woman' = 'queen'_ example previously mentioned. You can do this by using the `most_similar` function and translating the word analogies into an addition/subtraction formulation (as shown above). Pass the original comparison, which you are calculating a difference between, to the negative parameter, and the analogous starter you want to apply the same transformation to, to the `positive` parameter.
 
 Do this now in the cell below. 
-
-
-```python
-
-```
 
 As you can see from the output above, your model isn't perfect, but 'Queen' is still in the top 3, and with 'Princess' not too far behind. As you can see from the word in first place, 'reminiscent', your model is far from perfect. This is likely because you didn't have enough training data. That said, given the small amount of training data provided, the model still performs remarkably well! 
 
