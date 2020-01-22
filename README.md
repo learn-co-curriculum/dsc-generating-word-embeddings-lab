@@ -3,18 +3,19 @@
 
 ## Introduction
 
-In this lab, you'll learn how to generate word embeddings by training a Word2Vec model, and then embedding layers into Deep Neural Networks for NLP!
+In this lab, you'll learn how to generate word embeddings by training a Word2Vec model, and then embedding layers into deep neural networks for NLP!
 
 ## Objectives
 
 You will be able to:
 
-* Demonstrate a basic understanding of the architecture of the Word2Vec model
-* Demonstrate an understanding of the various tunable parameters of Word2Vec such as vector size and window size
+- Train a Word2Vec model and transform words into vectors 
+- Obtain most similar words by using methods associated with word vectors 
+
 
 ## Getting Started
 
-In this lab, you'll start by creating your own word embeddings by making use of the Word2Vec Model. Then, you'll move onto building Neural Networks that make use of **_Embedding Layers_** to accomplish the same end-goal, but directly in your model. 
+In this lab, you'll start by creating your own word embeddings by making use of the Word2Vec model. Then, you'll move onto building neural networks that make use of **_Embedding Layers_** to accomplish the same end-goal, but directly in your model. 
 
 As you've seen, the easiest way to make use of Word2Vec is to import it from the [Gensim Library](https://radimrehurek.com/gensim/). This model contains a full implementation of Word2Vec, which you can use to begin training immediately. For this lab, you'll be working with the [News Category Dataset from Kaggle](https://www.kaggle.com/rmisra/news-category-dataset/version/2#_=_).  This dataset contains headlines and article descriptions from the news, as well as categories for which type of article they belong to.
 
@@ -29,25 +30,25 @@ from gensim.models import Word2Vec
 from nltk import word_tokenize
 ```
 
-Now, import the data. The data stored in the file `'News_Category_Dataset_v2.json'`.  This file is compressed, so that it can be more easily stored in a github repo. **_Make sure to unzip the file before continuing!_**
+Now, import the data. The data is stored in the file `'News_Category_Dataset_v2.json'`.  This file is compressed, so that it can be more easily stored in a GitHub repo. **_Make sure to unzip the file before continuing!_**
 
-In the cell below, use the `read_json` function from pandas to read the dataset into a DataFrame. Be sure to include the parameter `lines=True` when reading in the dataset!
+In the cell below, use the `read_json()` function from Pandas to read the dataset into a DataFrame. Be sure to include the parameter `lines=True` when reading in the dataset!
 
-Once you've loaded in the data, inspect the head of the DataFrame to see what your data looks like. 
+Once you've imported the data, inspect the first few rows of the DataFrame to see what your data looks like. 
 
 
 ```python
-raw_df = None
+df = None
 ```
 
 ## Preparing the Data
 
-Since you're working with text data, you need to do some basic preprocessing including tokenization. Notice from the data sample that two different columns contain text data--`headline` and `short_description`. The more text data your Word2Vec model has, the better it will perform. Therefore, you'll want to combine the two columns before tokenizing each comment and training your Word2Vec model. 
+Since you're working with text data, you need to do some basic preprocessing including tokenization. Notice from the data sample that two different columns contain text data -- `headline` and `short_description`. The more text data your Word2Vec model has, the better it will perform. Therefore, you'll want to combine the two columns before tokenizing each comment and training your Word2Vec model. 
 
 In the cell below:
 
-* Create a column called `combined_text` that consists of the data from `df.headline` plus a space character (`' '`) plus the data from `df.short_description`.
-* Use the `combined_text` column's `map()` function and pass in `word_tokenize`. Store the result returned in `data`.
+* Create a column called `'combined_text'` that consists of the data from the `'headline'` column plus a space character (`' '`) plus the data from the `'short_description'` column 
+* Use the `'combined_text'` column's `.map()` method and pass in `word_tokenize`. Store the result returned in `data` 
 
 
 ```python
@@ -70,7 +71,7 @@ Now that you've prepared the data, train your model and explore a bit!
 
 ## Training the Model
 
-Start by instantiating a Word2Vec Model from gensim below. 
+Start by instantiating a Word2Vec Model from `gensim`. 
 
 In the cell below:
 
@@ -78,7 +79,7 @@ In the cell below:
     * The dataset we'll be training on, `data`
     * The size of the word vectors to create, `size=100`
     * The window size, `window=5`
-    * The minimum number of times a word needs to appear in order to be counted in  the model, `min_count=1`.
+    * The minimum number of times a word needs to appear in order to be counted in  the model, `min_count=1` 
     * The number of threads to use during training, `workers=4`
 
 
@@ -90,9 +91,9 @@ Now, that you've instantiated Word2Vec model, train it on your text data.
 
 In the cell below:
 
-* Call `model.train()` and pass in the following parameters:
+* Call the `.train()` method on your model and pass in the following parameters:
     * The dataset we'll be training on, `data`
-    * The `total_examples`  of sentences in the dataset, which you can find in `model.corpus_count`. 
+    * The `total_examples`  of sentences in the dataset, which you can find in `model.corpus_count` 
     * The number of `epochs` you want to train for, which we'll set to `10`
 
 
@@ -100,18 +101,18 @@ In the cell below:
 
 ```
 
-Great! you now have a fully trained model! The word vectors themselves are stored inside of a `Word2VecKeyedVectors` instance, which is stored inside of `model.wv`. To simplify this, restore this object inside of the variable `wv` to save yourself some keystrokes down the line. 
+Great! You now have a fully trained model! The word vectors themselves are stored in the `Word2VecKeyedVectors` instance, which is stored in the `.wv` attribute. To simplify this, restore this object inside of the variable `wv` to save yourself some keystrokes down the line. 
 
 
 ```python
-wv = model.wv
+wv = None
 ```
 
 ## Examining Your Word Vectors
 
 Now that you have a trained Word2Vec model, go ahead and explore the relationships between some of the words in the corpus! 
 
-One cool thing you can use Word2Vec for is to get the most similar words to a given word. You can do this passing in the word to `wv.most_similar()`. 
+One cool thing you can use Word2Vec for is to get the most similar words to a given word. You can do this by passing in the word to `wv.most_similar()`. 
 
 In the cell below, try getting the most similar word to `'Texas'`.
 
@@ -122,7 +123,7 @@ In the cell below, try getting the most similar word to `'Texas'`.
 
 Interesting! All of the most similar words are also states. 
 
-You can also get the least similar vectors to a given word by passing in the word to the `most_similar()` function's `negative` parameter. 
+You can also get the least similar vectors to a given word by passing in the word to the `.most_similar()` method's `negative` parameter. 
 
 In the cell below, get the least similar words to `'Texas'`.
 
@@ -149,7 +150,7 @@ Now get all of the word vectors from the object at once. You can find these insi
 
 ```
 
-As a final exercise, try to recreate the _'king' - 'man' + 'woman' = 'queen'_ example previously mentioned. You can do this by using the `most_similar` function and translating the word analogies into an addition/subtraction formulation (as shown above). Pass the original comparison, which you are calculating a difference between, to the negative parameter, and the analogous starter you want to apply the same transformation to, to the `positive` parameter.
+As a final exercise, try to recreate the _'king' - 'man' + 'woman' = 'queen'_ example previously mentioned. You can do this by using the `.most_similar()` method and translating the word analogies into an addition/subtraction formulation (as shown above). Pass the original comparison, which you are calculating a difference between, to the negative parameter, and the analogous starter you want to apply the same transformation to, to the `positive` parameter.
 
 Do this now in the cell below. 
 
@@ -158,10 +159,10 @@ Do this now in the cell below.
 
 ```
 
-As you can see from the output above, your model isn't perfect, but 'Queen' is still in the top 3, and with 'Princess' not too far behind. As you can see from the word in first place, 'reminiscent', your model is far from perfect. This is likely because you didn't have enough training data. That said, given the small amount of training data provided, the model still performs remarkably well! 
+As you can see from the output above, your model isn't perfect, but 'Queen' and 'Princess' are still in the top 5. As you can see from the other word in top 5, 'reminiscent' -- your model is far from perfect. This is likely because you didn't have enough training data. That said, given the small amount of training data provided, the model still performs remarkably well! 
 
 In the next lab, you'll reinvestigate transfer learning, loading in the weights from an open-sourced model that has already been trained for a very long time on a massive amount of data. Specifically, you'll work with the GloVe model from the Stanford NLP Group. There's not really any benefit from training the model ourselves, unless your text uses different, specialized vocabulary that isn't likely to be well represented inside an open-source model.
 
 ## Summary
 
-In this lab, you learned how to train and use a Word2Vec model to created vectorized word embeddings!
+In this lab, you learned how to train and use a Word2Vec model to create vectorized word embeddings!
